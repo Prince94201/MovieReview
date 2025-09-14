@@ -7,13 +7,20 @@ const sequelize = new Sequelize(
   process.env.DB_PASS,
   {
     host: process.env.DB_HOST,
-    dialect: 'mysql',
+    dialect: 'mssql',
+    port: process.env.DB_PORT || 1433,
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
       max: 10,
       min: 0,
       acquire: 30000,
       idle: 10000,
+    },
+    dialectOptions: {
+      options: {
+        encrypt: true, // Azure requires encryption
+        trustServerCertificate: false,
+      },
     },
   }
 );
